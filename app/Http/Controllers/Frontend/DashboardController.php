@@ -16,8 +16,9 @@ class DashboardController extends Controller
     public function halamanAwal()
     {
         $categories = $this->homepageService->getCategories();
-        $recommendedArticles = $this->homepageService->getRecommendedArticles();
+        $recommendedArticles = $this->homepageService->getRecommendedArticles(6);
         $latestArticles = $this->homepageService->getLatestArticles(10);
-        return view('layouts.frontend.app', compact('categories','recommendedArticles','latestArticles'));
+        $trendingArticles = $this->homepageService->getTrendingArticles(10);
+        return view('layouts.frontend.app', compact('categories','recommendedArticles','latestArticles','trendingArticles'));
     }
 }
