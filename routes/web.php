@@ -12,6 +12,10 @@ use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardContro
 Route::get('/', [FrontendDashboardController::class, 'halamanAwal'])->name('homepage');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/article/{slug}', [App\Http\Controllers\Frontend\DashboardController::class, 'halamanArtikel'])->name('article');
+Route::post('/article/{id}/increment-view', [App\Http\Controllers\Frontend\DashboardController::class, 'incrementView'])->name('article.increment-view');
+Route::get('/search', [App\Http\Controllers\Frontend\DashboardController::class, 'search'])->name('article.search');
+Route::get('/category/{slug}', [App\Http\Controllers\Frontend\DashboardController::class, 'halamanKategori'])->name('category.articles');
 
 Route::prefix('login')->group(function () {
     Route::get('/', [AuthController::class, 'halamanLogin'])->name('login');
