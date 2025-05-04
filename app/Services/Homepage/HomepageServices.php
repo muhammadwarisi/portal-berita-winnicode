@@ -14,6 +14,22 @@ class HomepageServices implements HomepageServiceInterface
         return Article::all();
     }
 
+    public function getArticleById($id)
+    {
+        return Article::findOrFail($id);
+    }
+
+    public function getArticleBySearch($search)
+    {
+        $query = $search;
+        
+        return Article::where('title', 'like', "%{$query}%")
+            ->orWhere('content', 'like', "%{$query}%")
+            ->where('published_at', '<=', now())
+            ->orderBy('published_at', 'desc')
+            ->paginate(12);
+    }
+
     public function getCategories()
     {
         return Category::all();
@@ -21,7 +37,14 @@ class HomepageServices implements HomepageServiceInterface
 
     public function getArticlesByCategory($category)
     {
-        return Article::where('category', $category)->get();
+        return Article::where('category_id', $category)->where('published_at', '<=', now())
+        ->orderBy('published_at', 'desc')
+        ->paginate(12);
+    }
+
+    public function getCategoryBySlug($slug)
+    {
+        return Category::where('slug', $slug)->first();
     }
 
     public function getRecommendedArticles($limit = 5)
@@ -102,5 +125,15 @@ class HomepageServices implements HomepageServiceInterface
             ->orderBy('published_at', 'desc')
             ->limit($limit)
             ->get();
+    }
+
+    public function getRelatedArticles($articleId, $limit = 5)
+    {
+        $article = Article::findOrFail($articleId);
+        $categoryId = $article->category_id;
+
+        return Article::where('category_id', $categoryId)
+            ->where('id', '!=', $articleId)
+            ->where('published_at', '<=', now())->take($limit)->get();
     }
 }
