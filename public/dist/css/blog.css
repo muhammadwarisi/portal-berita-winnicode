@@ -122,6 +122,17 @@ html{
     padding-bottom: .75rem;
     font-size: .875rem;
   }
+
+  .nav-link.active {
+    color: #007bff !important;
+    text-decoration: underline;
+  }
+
+  .nav-link:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+
+  }
   
   .card-img-right {
     height: 100%;
