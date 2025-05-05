@@ -10,6 +10,7 @@ use App\Http\Requests\LupaPasswordRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Auth\AuthServices as AuthAuthServices;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -37,6 +38,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+        Alert::success('Success', 'Login successfully');
         return $this->authService->login($request->validated());
     }
 

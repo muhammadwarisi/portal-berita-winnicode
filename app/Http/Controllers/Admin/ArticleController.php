@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Category;
 use App\Services\Article\ArticleService;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -33,6 +34,8 @@ class ArticleController extends Controller
     {
         $this->articleService->createArticle($request->validated());
 
+        Alert::success('Success', 'Article created successfully');
+
         return redirect()->route('index.artikel')
             ->with('message', 'Article created successfully');
     }
@@ -52,7 +55,7 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, $id)
     {
         $this->articleService->update($request->validated(), $id);
-
+        Alert::success('Success', 'Article updated successfully');
         return redirect()->route('index.artikel')
             ->with('message', 'Article updated successfully');
     }
@@ -60,7 +63,7 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $this->articleService->delete($id);
-
+        Alert::success('Success', 'Article deleted successfully');
         return redirect()->route('index.artikel')
             ->with('message', 'Article deleted successfully');
     }

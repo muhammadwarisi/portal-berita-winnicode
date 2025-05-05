@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,9 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::all();
-        
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('admin.category.index',compact('category'));
     }
 
@@ -39,6 +42,8 @@ class CategoryController extends Controller
         $data['slug'] = Str::slug($request->name);
 
         Category::create($data);
+
+        Alert::success('Success', 'Category created successfully');
 
         return back()->with('success','Berhasil Membuat Kategori');
     }
@@ -72,6 +77,8 @@ class CategoryController extends Controller
 
         Category::find($id)->update($data);
 
+        Alert::success('Success', 'Category updated successfully');
+
         return back()->with('success','Berhasil Update Kategori');
     }
 
@@ -81,6 +88,7 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         Category::find($id)->delete();
+        Alert::success('success','Category deleted successfully');
         return back()->with('success', 'Berhasil Menghapus Data Kategori');
     }
 }

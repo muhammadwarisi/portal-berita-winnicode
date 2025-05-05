@@ -63,7 +63,7 @@
                                         <!-- Form Delete -->
                                         <form action="{{ route('kategori.destroy', $data->id) }}" method="POST"
                                             class="d-inline"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                                            data-confirm-delete="true">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -183,4 +183,6 @@
             "responsive": true,
         });
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('sweetalert::alert')
 @endsection
