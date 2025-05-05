@@ -42,6 +42,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Image</th>
+                                <th>Author</th>
                                 <th>Title</th>
                                 <th>Content</th>
                                 <th>Published_at</th>
@@ -53,6 +54,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><img src="{{ Storage::url($article->featured_image) }}" alt="{{ $article->title }}" width="150"></td>
+                                    <td>{{$article->user->name}}</td>
                                     <td>{{ $article->title }}</td>
                                     <td>{!! Str::limit($article->content, 250) !!}</td>
                                     <td>{{ $article->published_at }}</td>
@@ -125,4 +127,6 @@
             "responsive": true,
         });
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('sweetalert::alert')
 @endsection
