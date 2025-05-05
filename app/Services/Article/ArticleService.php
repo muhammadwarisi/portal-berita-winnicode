@@ -10,7 +10,7 @@ class ArticleService implements ArticleServiceInterface
 {
     public function getAllArticles()
     {
-        return Article::all();
+        return Article::with('user')->get();
     }
     public function createArticle($data)
     {
