@@ -134,15 +134,6 @@
       </li>
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          {{-- <i class="far fa-user"></i> --}}
-          <div class="user-panel d-flex">
-            <span>{{Auth::user()->name}}</span>
-            <div class="image my-0 py-0 align-item-center">
-              <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
-            </div>
-          </div>
-        </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
           <div class="dropdown-divider"></div>
@@ -160,14 +151,8 @@
             <i class="fas fa-file mr-2"></i> 3 new reports
             <span class="float-right text-muted text-sm">2 days</span>
           </a>
-          <div class="dropdown-divider"></div>
-        <form action="{{route('logout')}}" method="post">
-          @csrf
-          <button type="submit">
-            <i class="fas fa-room"></i>
-            <strong>Logout</strong>
-          </button>
-        </form>
+          
+        
         </div>
       </li>
     </ul>
@@ -188,7 +173,15 @@
           <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{Auth::user()->name}}</a>
+          <div class="dropdown-divider"></div>
+          <form action="{{route('logout')}}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger">
+              <i class="fas fa-room"></i>
+              <span>Logout</span>
+            </button>
+          </form>
         </div>
       </div>
 
