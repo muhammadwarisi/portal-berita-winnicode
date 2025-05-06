@@ -27,7 +27,7 @@
             </div>
             @endif
       <p class="login-box-msg">Masukkan Email Yang Kamu Daftarkan</p>
-      <form action="{{route('password.email')}}" method="post">
+      <form action="{{route('process.lupa-password')}}" method="post">
         @csrf
         <div class="input-group mb-3">
           <input type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus class="form-control" placeholder="Email">
@@ -64,5 +64,7 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('sweetalert::alert')
 </body>
 </html>

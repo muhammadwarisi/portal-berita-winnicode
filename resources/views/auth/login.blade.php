@@ -82,7 +82,7 @@
                 <!-- /.social-auth-links -->
 
                 <p class="mb-1">
-                    <a href="#}">Lupa Password</a>
+                    <a href="{{route('lupa-password')}}">Lupa Password</a>
                 </p>
                 <p class="mb-0">
                     <a href="{{ route('register') }}" class="text-center">Registrasi Akun Baru</a>

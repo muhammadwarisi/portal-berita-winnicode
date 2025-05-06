@@ -23,11 +23,11 @@ Route::prefix('login')->group(function () {
 });
 Route::get('register', [AuthController::class, 'halamanRegister'])->name('register');
 Route::post('process/register', [AuthController::class, 'register'])->name('process.register');
-// Route::get('lupa-password',[AuthController::class,'halamanLupaPassword'])->name('lupa-password');
-// Route::post('process/lupa-password',[AuthController::class,'kirimEmail'])->name('process.lupa-password');
+Route::get('lupa-password',[AuthController::class,'halamanLupaPassword'])->name('lupa-password');
+Route::post('process/lupa-password',[AuthController::class,'kirimEmail'])->name('process.lupa-password');
 
-// Route::get('process/lupa-password/{token}',[AuthController::class,'kirimEmailToken'])->name('process.lupa-password.token');
-// Route::post('process/validasi/lupa-password',[AuthController::class,'validasiTokenResetPassword'])->name('process.lupa-password.validasi');
+Route::get('process/lupa-password/{token}',[AuthController::class,'halamanUpdatePassword'])->name('process.lupa-password.token');
+Route::post('process/validasi/lupa-password',[AuthController::class,'updatePassword'])->name('password.update');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 

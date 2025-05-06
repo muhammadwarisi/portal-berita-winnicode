@@ -9,6 +9,6 @@ interface AuthServiceInterface
     public function logout();
     public function kirimEmail(array $email);
     public function resetPassword(array $data);
-    public function kirimEmailToken(string $email);
+    public function prosesLupaPassword(array $data);
     public function validasiTokenResetPassword(string $token);
 }

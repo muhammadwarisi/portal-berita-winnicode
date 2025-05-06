@@ -57,30 +57,46 @@ class AuthServices implements AuthServiceInterface
         $token = Str::random(60);
         // Hapus token lama jika ada
         PasswordResetToken::where('email', $email)->delete();
-        // dd($email);
-        // Simpan token baru
+
         PasswordResetToken::create([
             "email" => $email,
             "token" => $token,
             "created_at" => now()
         ]);
             
-            // dd($email,$token);
+            
         Mail::to($email)->send(new ResetPasswordMail($token));
     }
 
     public function resetPassword(array $data)
     {
-
+        $email = $data['email'];
+        $password = $data['password'];
+        $password = Hash::make($password);
+        return User::where('email', $email)->update([
+            'password' => $password
+        ]);
     }
 
-    public function kirimEmailToken(string $email)
+    public function prosesLupaPassword(array $data)
     {
-
+        // give me code for proses update password
+        // give me code for proses update password
+        $email = $data['email'];
+        $password = $data['password'];
+        $password = Hash::make($password);
+        User::where('email', $email)->update([
+            'password' => $password
+        ]);
+        Alert::success('Success', 'Password berhasil direset!');
     }
 
     public function validasiTokenResetPassword(string $token)
     {
-        
+        $cekToken = PasswordResetToken::where('token', $token)->first();
+        if ($cekToken) {
+            return view('auth.reset-password-validasi', compact('token', 'email'));
+        }
+        return redirect()->route('lupa-password');
     }
 }
