@@ -6,6 +6,7 @@ use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\PasswordResetToken;
+use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -37,9 +38,12 @@ class AuthServices implements AuthServiceInterface
     // Register Method
     public function register(array $data)
     {
-        $user = User::create([
+        $role = Roles::where('name', 'Author')->first();
+        $data['role_id'] = $role->id;
+        User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'role_id' => $data['role_id'],
             'password' => Hash::make($data['password']),
         ]);
 
