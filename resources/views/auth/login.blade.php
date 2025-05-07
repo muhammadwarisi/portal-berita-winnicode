@@ -82,6 +82,9 @@
                 <!-- /.social-auth-links -->
 
                 <p class="mb-1">
+                    <a href="{{route('homepage')}}">Kembali</a>
+                </p>
+                <p class="mb-1">
                     <a href="{{route('lupa-password')}}">Lupa Password</a>
                 </p>
                 <p class="mb-0">
