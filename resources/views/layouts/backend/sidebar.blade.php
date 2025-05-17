@@ -210,6 +210,7 @@
               </p>
             </a>
           </li>
+          @if (Auth::user()->roles->name == 'Admin')
           <li class="nav-item menu-open">
             <a href="{{route('index.artikel')}}" class="nav-link {{Request::is('artikel') ? 'active' : ''}}">
               <i class="nav-icon fas fa-book"></i>
@@ -236,6 +237,15 @@
               </p>
             </a>\
           </li>
+          @elseif(Auth::user()->roles->name == 'Reviewer')
+          <li class="nav-item menu-open">
+            <a href="{{route('reviewer.artikel.index')}}" class="nav-link {{Request::is('reviewer.artikel.index*')? 'active' : ''}}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Artikel Review
+              </p>
+            </a>
+            @endif
           <li class="nav-header">LABELS</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
