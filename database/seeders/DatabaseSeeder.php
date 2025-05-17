@@ -7,6 +7,7 @@ use Database\Seeders\UserSeeder;
 use Database\Seeders\RolesSeeder;
 use Database\Seeders\ArticleSeeder;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\ArticleReviewSeeder;
 use Database\Seeders\UserArticleViewSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ArticleSeeder::class,
             UserArticleViewSeeder::class,
+            ArticleReviewSeeder::class,
         ]);
     }
 }
