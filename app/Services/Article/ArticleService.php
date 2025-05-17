@@ -10,7 +10,22 @@ class ArticleService implements ArticleServiceInterface
 {
     public function getAllArticles()
     {
-        return Article::with('user')->get();
+        $user = Auth::user();
+        if ($user->role === 'Admin') {
+            return Article::with('user')->get();
+        } elseif ($user->role === 'Reviewer') {
+            // Reviewer hanya melihat artikel yang perlu direview
+            return Article::where('status', 'pending_review')->with('user')->get();
+        } else {
+            // Editor melihat artikel miliknya
+            return Article::where('user_id', $user->id)->with('user')->get();
+        }
+        
+    }
+
+    public function getArticlesByUserId($userId)
+    {
+        return Article::where('user_id', $userId)->get();
     }
     public function createArticle($data)
     {
