@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Article;
+use App\Models\ArticleReview;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -49,6 +51,18 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsTo(Roles::class,'role_id','id');
+        return $this->belongsTo(Roles::class, 'role_id', 'id');
+    }
+
+    public function assignedArticles()
+    {
+        return $this->belongsToMany(Article::class, 'user_article_reviews')
+            ->withPivot('is_assigned')
+            ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ArticleReview::class, 'reviewer_id');
     }
 }
