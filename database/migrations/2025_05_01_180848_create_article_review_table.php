@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('article_review', function (Blueprint $table) {
             $table->id();
-            $table->integer('article_id');
-            $table->text('review_comment');
-            $table->enum('review_status', ['in review', 'approved', 'rejected'])->default('in review');
+            $table->foreignId('article_id')->constrained()->onDelete('cascade');
+            $table->foreignId('reviewer_id')->constrained('users')->onDelete('cascade');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('comments')->nullable();
+            $table->timestamp('reviewed_at')->nullable();
             $table->timestamps();
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+
+            // Satu reviewer hanya dapat memberikan satu review per artikel
+            $table->unique(['article_id', 'reviewer_id']);
         });
     }
 
