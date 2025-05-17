@@ -3,10 +3,11 @@
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Reviewer\ArtikelReviewController;
 use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardController;
 
 Route::get('/', [FrontendDashboardController::class, 'halamanAwal'])->name('homepage');
@@ -48,4 +49,11 @@ Route::prefix('user')->group(function () {
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('delete.user');
 });
 Route::resource('/kategori', CategoryController::class);
+
+Route::middleware(['auth'])->prefix('reviewer')->name('reviewer.')->group(function () {
+    Route::get('/artikel', [ArtikelReviewController::class, 'index'])->name('artikel.index');
+    Route::get('/artikel/{id}', [ArtikelReviewController::class, 'show'])->name('artikel.show');
+    Route::get('/artikel/{id}/review', [ArtikelReviewController::class, 'reviewForm'])->name('artikel.review-form');
+    Route::post('/artikel/{id}/review', [ArtikelReviewController::class, 'submitReview'])->name('artikel.submit-review');
+});
 
