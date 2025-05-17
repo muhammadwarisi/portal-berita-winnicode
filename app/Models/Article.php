@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\ArticleReview;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,5 +33,17 @@ class Article extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function reviewers()
+    {
+        return $this->belongsToMany(User::class, 'user_article_reviews')
+            ->withPivot('is_assigned')
+            ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ArticleReview::class);
     }
 }
