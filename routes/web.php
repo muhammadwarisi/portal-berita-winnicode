@@ -7,13 +7,14 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Reviewer\ArtikelReviewController;
 use App\Http\Controllers\Frontend\DashboardController as FrontendDashboardController;
 
 Route::get('/', [FrontendDashboardController::class, 'halamanAwal'])->name('homepage');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/article/{slug}', [App\Http\Controllers\Frontend\DashboardController::class, 'halamanArtikel'])->name('article');
+Route::get('/article/{id}/{slug:slug}', [App\Http\Controllers\Frontend\DashboardController::class, 'halamanArtikel'])->name('article');
 Route::post('/article/{id}/increment-view', [App\Http\Controllers\Frontend\DashboardController::class, 'incrementView'])->name('article.increment-view');
 Route::get('/search', [App\Http\Controllers\Frontend\DashboardController::class, 'search'])->name('article.search');
 Route::get('/category/{slug}', [App\Http\Controllers\Frontend\DashboardController::class, 'halamanKategori'])->name('category.articles');
@@ -55,5 +56,11 @@ Route::middleware(['auth'])->prefix('reviewer')->name('reviewer.')->group(functi
     Route::get('/artikel/{id}', [ArtikelReviewController::class, 'show'])->name('artikel.show');
     Route::get('/artikel/{id}/review', [ArtikelReviewController::class, 'reviewForm'])->name('artikel.review-form');
     Route::post('/artikel/{id}/review', [ArtikelReviewController::class, 'submitReview'])->name('artikel.submit-review');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/comments', [CommentController::class, 'storeComment'])->name('comments.store');
+    Route::put('/comments/{id}', [CommentController::class, 'updateComment'])->name('comments.update');
+    Route::delete('/comments/{id}', [CommentController::class, 'deleteComment'])->name('comments.destroy');
 });
 
