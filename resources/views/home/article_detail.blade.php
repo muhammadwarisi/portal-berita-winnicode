@@ -71,6 +71,112 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Comments Section -->
+            
+<!-- Comments Section -->
+<div class="comments-section mt-5">
+    <h3 class="mb-4">Komentar ({{ $comments->count() }})</h3>
+    
+    @auth
+    <!-- Comment Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form action="{{ route('comments.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="article_id" value="{{ $article->id }}">
+                <div class="form-group">
+                    <label for="comment">Tinggalkan Komentar</label>
+                    <textarea class="form-control @error('comment_article') is-invalid @enderror" id="comment" name="comment_article" rows="3" required></textarea>
+                    @error('comment_article')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+            </form>
+        </div>
+    </div>
+    @else
+    <div class="alert alert-info">
+        <p class="mb-0">Silakan <a href="{{ route('login') }}">login</a> untuk meninggalkan komentar.</p>
+    </div>
+    @endauth
+    
+    <!-- Comments List -->
+    @if($comments->count() > 0)
+        <div class="comments-list">
+            @foreach($comments as $comment)
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <img src="https://via.placeholder.com/50" alt="{{ $comment->user->name }}" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3 ml-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mt-0">{{ $comment->user->name }}</h5>
+                                    <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                                </div>
+                                <p>{{ $comment->comment_article }}</p>
+                                
+                                @auth
+                                    @if(auth()->user()->id === $comment->user_id)
+                                        <div class="d-flex">
+                                            <button type="button" class="btn btn-sm btn-outline-primary mr-2" 
+                                                    data-toggle="modal" data-target="#editCommentModal{{ $comment->id }}">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus komentar ini?')">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </div>
+                                        
+                                        <!-- Edit Comment Modal -->
+                                        <div class="modal fade" id="editCommentModal{{ $comment->id }}" tabindex="-1" role="dialog" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editCommentModalLabel">Edit Komentar</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{{ route('comments.update', $comment->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="edit_comment">Komentar</label>
+                                                                <textarea class="form-control" id="edit_comment" name="comment_article" rows="3" required>{{ $comment->comment_article }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <div class="alert alert-light">
+            <p class="mb-0">Belum ada komentar. Jadilah yang pertama berkomentar!</p>
+        </div>
+    @endif
+</div>
             
             <!-- Related Articles -->
             <div class="related-articles mt-5">
@@ -89,7 +195,7 @@
                                 <div class="card-footer bg-white">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">{{ \Carbon\Carbon::parse($relatedArticle->published_at)->diffForHumans() }}</small>
-                                        <a href="{{ route('article', $relatedArticle->id) }}" class="btn btn-sm btn-primary">Read More</a>
+                                        <a href="{{ route('article', [$relatedArticle->id,$relatedArticle->slug]) }}" class="btn btn-sm btn-primary">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +253,7 @@
                                 <img src="{{asset('dist/img/photo4.jpg')}}" class="mr-3" alt="{{ $popularArticle->title }}" style="width: 64px; height: 64px; object-fit: cover;">
                                 <div class="media-body">
                                     <h6 class="mt-0 mb-1">
-                                        <a href="{{ route('article', $popularArticle->id) }}">{{ Str::limit($popularArticle->title, 50) }}</a>
+                                        <a href="{{ route('article', [$popularArticle->id,$popularArticle->slug]) }}">{{ Str::limit($popularArticle->title, 50) }}</a>
                                     </h6>
                                     <small class="text-muted">{{ \Carbon\Carbon::parse($popularArticle->published_at)->diffForHumans() }}</small>
                                 </div>
