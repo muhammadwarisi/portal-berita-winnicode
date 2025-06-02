@@ -31,6 +31,7 @@ class ArticleSeeder extends Seeder
             Article::create([
                 'title' => $title,
                 'content' => $faker->paragraphs(rand(5, 15), true),
+                'slug' => Str::slug($title),
                 'featured_image' => 'articles/default-' . rand(1, 5) . '.jpg',
                 'category_id' => $category->id,
                 'user_id' => $editor->id,
