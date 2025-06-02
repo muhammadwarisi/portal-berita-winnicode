@@ -4,6 +4,7 @@ namespace App\Services\Homepage;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\UserArticleViews;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Homepage\HomepageServiceInterface;
@@ -17,10 +18,89 @@ class HomepageServices implements HomepageServiceInterface
         })->all();
     }
 
-    public function getArticleById($id)
+        /**
+     * Get article by ID or slug
+     * 
+     * @param string|int $idOrSlug ID atau slug artikel
+     * @return \App\Models\Article
+     */
+    public function getArticleById($idOrSlug)
     {
-        return Article::findOrFail($id);
+        // Cek apakah parameter adalah ID (angka) atau slug (string)
+        $isId = is_numeric($idOrSlug);
+        
+        // Cari artikel berdasarkan ID atau slug
+        if ($isId) {
+            $article = Article::findOrFail($idOrSlug);
+        } else {
+            $article = Article::where('slug', $idOrSlug)->firstOrFail();
+        }
+        
+        // Cek apakah artikel sudah dilihat dalam session saat ini
+        $viewedArticles = session()->get('viewed_articles', []);
+        $articleId = $article->id;
+        
+        // Jika artikel belum dilihat dalam session ini, increment view_count
+        if (!in_array($articleId, $viewedArticles)) {
+            $article->increment('view_count');
+            
+            // Tambahkan artikel ke daftar yang sudah dilihat
+            $viewedArticles[] = $articleId;
+            session()->put('viewed_articles', $viewedArticles);
+            
+            // Jika user login, catat di user_article_views
+            if (Auth::check()) {
+                // Cek apakah sudah ada catatan view untuk user ini
+                $userView = UserArticleViews::where('user_id', Auth::id())
+                    ->where('article_id', $articleId)
+                    ->first();
+                
+                // Jika belum ada, buat catatan baru
+                if (!$userView) {
+                    UserArticleViews::create([
+                        'user_id' => Auth::id(),
+                        'article_id' => $articleId
+                    ]);
+                }
+            }
+        }
+        
+        return $article;
     }
+    // public function getArticleById($id)
+    // {
+    //     $article = Article::findOrFail($id);
+        
+    //     // Cek apakah artikel sudah dilihat dalam session saat ini
+    //     $viewedArticles = session()->get('viewed_articles', []);
+        
+    //     // Jika artikel belum dilihat dalam session ini, increment view_count
+    //     if (!in_array($id, $viewedArticles)) {
+    //         $article->increment('view_count');
+            
+    //         // Tambahkan artikel ke daftar yang sudah dilihat
+    //         $viewedArticles[] = $id;
+    //         session()->put('viewed_articles', $viewedArticles);
+            
+    //         // Jika user login, catat di user_article_views
+    //         if (Auth::check()) {
+    //             // Cek apakah sudah ada catatan view untuk user ini
+    //             $userView = UserArticleViews::where('user_id', Auth::id())
+    //                 ->where('article_id', $id)
+    //                 ->first();
+                
+    //             // Jika belum ada, buat catatan baru
+    //             if (!$userView) {
+    //                 UserArticleViews::create([
+    //                     'user_id' => Auth::id(),
+    //                     'article_id' => $id
+    //                 ]);
+    //             }
+    //         }
+    //     }
+        
+    //     return $article;
+    // }
 
     public function getArticleBySearch($search)
     {

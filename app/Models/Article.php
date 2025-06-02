@@ -19,12 +19,47 @@ class Article extends Model
      */
     protected $fillable = [
         'title',
+        'slug',
         'content',
         'category_id',
         'featured_image',
         'user_id',
         'published_at',
     ];
+    
+    // Tambahkan metode ini untuk menghasilkan slug otomatis
+    public static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($article) {
+            if (empty($article->slug)) {
+                $article->slug = \Illuminate\Support\Str::slug($article->title);
+                
+                // Pastikan slug unik
+                $count = static::whereRaw("slug RLIKE '^{$article->slug}(-[0-9]+)?$'")->count();
+                
+                if ($count > 0) {
+                    $article->slug = "{$article->slug}-{$count}";
+                }
+            }
+        });
+        
+        static::updating(function ($article) {
+            if ($article->isDirty('title') && empty($article->slug)) {
+                $article->slug = \Illuminate\Support\Str::slug($article->title);
+                
+                // Pastikan slug unik
+                $count = static::whereRaw("slug RLIKE '^{$article->slug}(-[0-9]+)?$'")
+                    ->where('id', '!=', $article->id)
+                    ->count();
+                
+                if ($count > 0) {
+                    $article->slug = "{$article->slug}-{$count}";
+                }
+            }
+        });
+    }
 
     public function category()
     {
