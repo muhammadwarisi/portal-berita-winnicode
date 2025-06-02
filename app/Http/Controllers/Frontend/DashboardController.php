@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Services\Comment\CommentService;
 use App\Services\Homepage\HomepageServices;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     protected $homepageService;
-    public function __construct(HomepageServices $homepageService)
+    protected $commentService;
+    public function __construct(HomepageServices $homepageService,CommentService $commentService)
     {
         $this->homepageService = $homepageService;
+        $this->commentService = $commentService;
     }
     public function halamanAwal()
     {
@@ -40,7 +43,7 @@ class DashboardController extends Controller
         return view('home.article_by_category', compact('categories', 'category', 'articles', 'latestArticles', 'recommendedArticles', 'trendingArticles'));
     }
 
-    public function halamanArtikel($id)
+    public function halamanArtikel($id, $slug)
     {
         $categories = $this->homepageService->getCategories();
         $recommendedArticles = $this->homepageService->getRecommendedArticles(6);
@@ -48,12 +51,14 @@ class DashboardController extends Controller
         $trendingArticles = $this->homepageService->getTrendingArticles(10);
         $popularArticles = $this->homepageService->getPopularArticles(5);
         $relatedArticles = $this->homepageService->getRelatedArticles($id);
-        $article = $this->homepageService->getArticleById($id);
+        $article = $this->homepageService->getArticleById($slug);
+
+        $comments = $this->commentService->getAllComment();
 
         if (!$article) {
             abort(404);
         }
-        return view('home.article_detail', compact('categories', 'article', 'latestArticles', 'recommendedArticles', 'trendingArticles', 'relatedArticles', 'popularArticles'));
+        return view('home.article_detail', compact('categories', 'article', 'latestArticles', 'recommendedArticles', 'trendingArticles', 'relatedArticles', 'popularArticles','comments'));
     }
 
     public function incrementView($id)
