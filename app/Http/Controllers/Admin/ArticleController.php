@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Article;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
-use App\Models\Category;
 use App\Services\Article\ArticleService;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
@@ -21,6 +22,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = $this->articleService->getAllArticles();
+        // dd(Article::with('user')->get());
         return view('admin.article.index', compact('articles'));
     }
 
