@@ -24,7 +24,7 @@
           <div class="col-md-6 px-0">
             <h1 class="display-4 font-italic">{{ $article->title }}</h1>
             <p class="lead my-3">{{ Str::limit(strip_tags($article->content), 150) }}</p>
-            <p class="lead mb-0"><a href="{{ route('article', $article->id) }}" class="text-white font-weight-bold">Continue reading...</a></p>
+            <p class="lead mb-0"><a href="{{ route('article', [$article->id,$article->slug]) }}" class="text-white font-weight-bold">Continue reading...</a></p>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
           </h3>
           <div class="mb-1 text-white">{{\Carbon\Carbon::parse($article->published_at)->diffForHumans()}}</div>
           <p class="card-text mb-auto text-truncate" style="max-height: 4.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#">Continue reading</a>
+          <a href="{{ route('article', [$article->id,$article->slug]) }}">Continue reading</a>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@
         </div>
         <div class="card-footer bg-dark">
             <small class="text-white">Published {{ \Carbon\Carbon::parse($article->published_at)->diffForHumans() }}</small>
-            <a href="#" class="btn btn-sm btn-outline-primary float-right">Read More</a>
+            <a href="{{ route('article', [$article->id,$article->slug]) }}" class="btn btn-sm btn-outline-primary float-right">Read More</a>
         </div>
     </div>
     @endforeach
@@ -91,9 +91,10 @@
 <aside class="col-md-4 col-sm-4 blog-sidebar">
   <h2>Trending</h2>
   @foreach ($trendingArticles as $article)
-  <div class="p-3 mb-3 bg-light rounded">
-    <h5 class="font-italic">{{Str::limit($article->title,'50')}}</h5>
-    <p class="mb-0">{{Str::limit($article->content,'60')}}</p>
+  <div class="card p-3 mb-3 bg-light rounded">
+    <h5 class="font-italic">{!! Str::limit($article->title,'50') !!}</h5>
+    <p class="mb-0">{!!Str::limit($article->content,'60')!!}</p>
+    <a href="{{ route('article', [$article->id,$article->slug]) }}" class="btn btn-sm btn-outline-primary">Read More</a>
   </div>
   @endforeach
 

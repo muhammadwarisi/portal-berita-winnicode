@@ -32,7 +32,7 @@
                                 <div class="card-footer bg-white">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">{{\Carbon\Carbon::parse($article->published_at)->diffForHumans()}}</small>
-                                        <a href="{{route('article',$article->id)}}" class="btn btn-sm btn-primary">Read More</a>
+                                        <a href="{{route('article',[$article->id, $article->slug])}}" class="btn btn-sm btn-primary">Read More</a>
                                     </div>
                                 </div>
                             </div>
