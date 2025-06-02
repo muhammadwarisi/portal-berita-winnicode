@@ -14,7 +14,7 @@
     <link href="{{asset('dist/css/blog.css')}}" rel="stylesheet">
 </head>
 <body>
-
+  @include('sweetalert::alert')
   <div class="container">
     @include('layouts.frontend.navbar')
 
@@ -38,8 +38,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.8/holder.min.js"></script>
+  @include('sweetalert::alert')
   
-  {{-- <script src="../../assets/js/vendor/holder.min.js"></script> --}}
+  <script src="../../assets/js/vendor/holder.min.js"></script>
   <script>
     Holder.addTheme('thumb', {
       bg: '#55595c',
