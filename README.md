@@ -4,14 +4,13 @@ Aplikasi Portal Berita Merupakah aplikasi yang dibuat untuk memenuhi project Mag
 
 ## 📑 Daftar Isi
 
-- [Persyaratan Sistem](#persyaratan-sistem)
-- [Instalasi](#instalasi)
-- [Konfigurasi](#konfigurasi)
-- [Struktur Database](#struktur-database)
-- [Seeder](#seeder)
-- [Fitur Utama](#fitur-utama)
-- [Peran Pengguna](#peran-pengguna)
-- [Rute Utama](#rute-utama)
+- [Persyaratan Sistem](##persyaratan-sistem)
+- [Instalasi](##instalasi)
+- [Konfigurasi](##konfigurasi)
+- [Struktur Database](##struktur-database)
+- [Seeder](##seeder)
+- [Fitur Utama](##fitur-utama)
+- [Peran Pengguna](##peran-pengguna)
 
 ---
 ## ✅ Persyaratan Sistem
