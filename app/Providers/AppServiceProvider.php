@@ -3,15 +3,16 @@
 namespace App\Providers;
 
 use App\Services\Auth\AuthServices;
-use App\Services\ArticleReview\ReviewService;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Article\ArticleService;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Homepage\HomepageServices;
-use App\Services\ArticleReview\ReviewServiceInterface;
+use App\Services\ArticleReview\ReviewService;
 use App\Services\Article\ArticleServiceInterface;
 use App\Services\Homepage\HomepageServiceInterface;
+use App\Services\ArticleReview\ReviewServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        
+        Paginator::useBootstrapFive();
+        Paginator::useBootstrapFour();
     }
 }

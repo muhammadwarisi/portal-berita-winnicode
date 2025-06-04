@@ -25,7 +25,7 @@
                                 </small>
                             </p>
                             <p class="card-text">{{ Str::limit($article->description, 100) }}</p>
-                            <a href="{{ route('article', $article->id) }}" class="btn btn-primary">Read More</a>
+                            <a href="{{ route('article', [$article->id, $article->slug]) }}" class="btn btn-primary">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
         </div>
         
         <div class="d-flex justify-content-center mt-4">
-            {{ $articles->links() }}
+            {!! $articles->withQueryString()->links('pagination::bootstrap-5') !!}
         </div>
     @else
         <div class="alert alert-info">
