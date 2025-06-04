@@ -8,6 +8,7 @@ use App\Models\UserArticleViews;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Homepage\HomepageServiceInterface;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomepageServices implements HomepageServiceInterface
 {
@@ -105,6 +106,10 @@ class HomepageServices implements HomepageServiceInterface
     public function getArticleBySearch($search)
     {
         $query = $search;
+
+        if (empty($query)) {
+            Alert::error('Error', 'Query tidak boleh kosong');
+        }
 
         return Article::whereHas('reviews', function ($query) {
             $query->where('status', 'approved');
