@@ -1,5 +1,5 @@
 # Aplikasi Portal Berita Laravel
-Aplikasi Portal Berita Merupakah aplikasi yang dibuat untuk memenuhi project Magang, Pada project ini saya menggunakan Service Layer Design Sebagai Arsitektur Foldernya yaitu memisahkan logika bisnis di controller ke tiap class masing-masing Service.
+Aplikasi Portal Berita Merupakah aplikasi yang dibuat untuk Portofolio saya pribadi, Pada project ini saya menggunakan Service Layer Design Sebagai Arsitektur Foldernya yaitu memisahkan logika bisnis di controller ke tiap class masing-masing Service.
 
 
 ## 📑 Daftar Isi
